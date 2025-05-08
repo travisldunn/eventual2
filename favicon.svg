@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev/svgjs" width="1000" height="1000"><g clip-path="url(#SvgjsClipPath1231)"><rect width="1000" height="1000" fill="#ffffff"></rect><g transform="matrix(28.107432854465955,0,0,28.107432854465955,50.42161149281708,50)"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev/svgjs" width="31.99" height="32.02"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 31.99 32.02">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #010101;
+        stroke-width: 0px;
+      }
+    </style>
+  <clipPath id="SvgjsClipPath1231"><rect width="1000" height="1000" x="0" y="0" rx="200" ry="200"></rect></clipPath></defs>
+  <path class="cls-1" d="m14.45,0l-4.84,15.85L4.78,0H0l6.28,19.55h6.48L19.03,0h-4.58Z"></path>
+  <path class="cls-1" d="m17.54,32.02l4.84-15.85,4.83,15.85h4.78s-6.28-19.55-6.28-19.55h-6.48s-6.28,19.55-6.28,19.55h4.58Z"></path>
+</svg></svg></g></g></svg>
