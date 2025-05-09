@@ -2,7 +2,7 @@ import React from "react";
 
 const Logo = ({ className = "", ...props }) => (
   <img
-    src="/logo.png"
+    src="/eventual2/logo.png"
     alt="Eventual Logo"
     className={`h-8 w-auto ${className}`}
     {...props}
