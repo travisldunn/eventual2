@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Cell, Tooltip, ReferenceLine } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Cell, Tooltip, ReferenceLine, Legend } from 'recharts';
 import { ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
 
 interface ChartProps {
@@ -26,6 +25,10 @@ const InsuranceBarChart: React.FC<ChartProps> = ({
   referenceLineValue,
   valueColor
 }) => {
+  // Calculate domain for Y axis to ensure strike price is visible
+  const maxValue = Math.max(...data.map(d => d.value), referenceLineValue || 0);
+  const yAxisDomain = [0, Math.ceil(maxValue * 1.1)]; // Add 10% padding
+
   return (
     <div className="bg-secondary/50 rounded-lg p-4 md:p-6 h-full">
       <h3 className="text-xl font-medium mb-4 md:mb-6 text-center">{title}</h3>
@@ -40,7 +43,12 @@ const InsuranceBarChart: React.FC<ChartProps> = ({
             data={data}
             margin={{ top: 30, right: 10, left: 10, bottom: 20 }}
           >
-            <CartesianGrid strokeDasharray="3 3" stroke="#333" horizontal={false} />
+            <CartesianGrid 
+              strokeDasharray="3 3" 
+              stroke="#333" 
+              horizontal={true}
+              vertical={false}
+            />
             <XAxis 
               dataKey="name"
               axisLine={false}
@@ -49,21 +57,49 @@ const InsuranceBarChart: React.FC<ChartProps> = ({
             />
             <YAxis 
               type="number"
+              domain={yAxisDomain}
               axisLine={false}
               tickLine={false}
               tick={{ fill: '#8E9196', fontSize: 12 }}
               tickFormatter={formatCurrency}
             />
             <Tooltip 
-              content={<ChartTooltipContent />} 
-              formatter={(value: number) => [`$${value.toLocaleString()}`, 'Premium']}
+              content={({ active, payload, label }) => {
+                if (active && payload && payload.length) {
+                  const value = payload[0].value as number;
+                  const isAboveStrike = referenceLineValue && value > referenceLineValue;
+                  return (
+                    <div className="bg-black/90 p-3 rounded-lg border border-white/20">
+                      <p className="text-white font-medium">{label}</p>
+                      <p className="text-white">
+                        Premium: <span className={isAboveStrike ? "text-[#FF3B30]" : "text-[#34C759]"}>
+                          ${value.toLocaleString()}
+                        </span>
+                      </p>
+                      {showReferenceLine && referenceLineValue && (
+                        <p className="text-[#8E9196] text-sm mt-1">
+                          Strike Price: ${referenceLineValue.toLocaleString()}
+                        </p>
+                      )}
+                    </div>
+                  );
+                }
+                return null;
+              }}
             />
             {showReferenceLine && referenceLineValue && (
               <ReferenceLine 
                 y={referenceLineValue} 
                 stroke="#34C759" 
+                strokeWidth={2}
                 strokeDasharray="3 3"
                 isFront={true}
+                label={{
+                  value: "Strike Price",
+                  position: "right",
+                  fill: "#34C759",
+                  fontSize: 12
+                }}
               />
             )}
             <Bar 
@@ -89,6 +125,11 @@ const InsuranceBarChart: React.FC<ChartProps> = ({
       </div>
       <div className="text-center mt-4">
         <p className="font-medium">Year 3 premium: <span style={{ color: valueColor }}>${year3Value.toLocaleString()}</span></p>
+        {showReferenceLine && referenceLineValue && (
+          <p className="text-sm text-[#8E9196] mt-1">
+            Strike Price: ${referenceLineValue.toLocaleString()}
+          </p>
+        )}
       </div>
     </div>
   );

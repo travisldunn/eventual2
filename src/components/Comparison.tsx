@@ -51,12 +51,11 @@ const Comparison: React.FC = () => {
       // Determine fill color based on year and type
       let fill;
       if (type === "withoutLock") {
-        fill = data.year === 3 ? "#FF3B30" : "#6A6A6A";
+        // For without lock, use red for values above strike price
+        fill = data.withoutLock > STRIKE_PRICE ? "#FF3B30" : "#6A6A6A";
       } else {
-        // withLock
-        // First two bars should be gray like the other chart
-        fill =
-          data.year < 2 ? "#6A6A6A" : data.year === 3 ? "#34C759" : "#198754";
+        // For with lock, use green for values at strike price
+        fill = data.withLock === STRIKE_PRICE ? "#34C759" : "#6A6A6A";
       }
 
       return {
@@ -165,7 +164,7 @@ const Comparison: React.FC = () => {
             data={withoutLockData}
             title="Without Premium Lock"
             year3Value={insuranceData.yearlyData[3].withoutLock}
-            valueColor="#FF3B30"
+            valueColor={insuranceData.yearlyData[3].withoutLock > STRIKE_PRICE ? "#FF3B30" : "#6A6A6A"}
           />
 
           {/* Chart 2: With Premium Lock */}
